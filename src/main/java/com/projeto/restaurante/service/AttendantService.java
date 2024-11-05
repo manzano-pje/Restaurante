@@ -56,5 +56,18 @@ public class AttendantService {
                 collect(Collectors.toList());
     }
 
+    public void update(String name, String nameUpdate){
+        Optional<Attendant> attendantOptional = repositpry.findByName(name);
+        if (attendantOptional.isEmpty()){
+            throw new UnregisteredAttendantExceptoin();
+        }
+        Optional<Attendant> attendantUpdating = repositpry.findByName(nameUpdate);
+        if (attendantUpdating.isPresent()){
+            throw new AttendantAlreadyRegisteredExceptoin();
+        }
+        Attendant attendant = mapper.map(attendantOptional, Attendant.class);
+        attendant.setName(stringConverter(nameUpdate));
+        repositpry.save(attendant);
+    }
 
 }
