@@ -4,6 +4,7 @@ import com.projeto.restaurante.dto.AttendantDto;
 import com.projeto.restaurante.service.AttendantService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -35,4 +36,11 @@ public class AttendantController {
     public List<AttendantDto> findOne(String name){
         return attendantService.findByName(name);
     }
+
+    @PatchMapping("/{name}")
+    public ResponseEntity<Object> update(@PathVariable String name, String nameUpdate){
+        attendantService.update(name, nameUpdate);
+        return ResponseEntity.status(HttpStatus.OK).body("Atendente atualizado com sucesso");
+    }
+
 }
