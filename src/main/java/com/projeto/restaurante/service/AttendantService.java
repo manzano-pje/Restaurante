@@ -70,4 +70,12 @@ public class AttendantService {
         repositpry.save(attendant);
     }
 
+    public void delete(String name){
+        Optional<Attendant> attendantOptional = repositpry.findByName(name);
+        if(attendantOptional.isEmpty()){
+            throw new UnregisteredAttendantExceptoin();
+        }
+        repositpry.deleteById(attendantOptional.get().getId());
+    }
+
 }

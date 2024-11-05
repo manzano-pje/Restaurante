@@ -43,4 +43,10 @@ public class AttendantController {
         return ResponseEntity.status(HttpStatus.OK).body("Atendente atualizado com sucesso");
     }
 
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Object> delete(@PathVariable String name){
+        attendantService.delete(name);
+        return ResponseEntity.status(HttpStatus.OK).body("Atendente apagado com sucesso");
+    }
+
 }
