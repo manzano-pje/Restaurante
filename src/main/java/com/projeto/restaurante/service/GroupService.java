@@ -66,6 +66,6 @@ public class GroupService {
         if(groupOptional.isEmpty()){
             throw new UnregisteredGroupException();
         }
-        groupOptional.ifPresent(repository::delete);
+        repository.deleteById(groupOptional.get().getId());
     }
 }
