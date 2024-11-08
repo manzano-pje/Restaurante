@@ -1,9 +1,8 @@
 package com.projeto.restaurante.service;
 
-import com.projeto.restaurante.configuration.TextConverter;
 import com.projeto.restaurante.dto.AttendantDto;
-import com.projeto.restaurante.exceptions.AttendantAlreadyRegisteredExceptoin;
-import com.projeto.restaurante.exceptions.UnregisteredAttendantExceptoin;
+import com.projeto.restaurante.exceptions.AttendantAlreadyRegisteredException;
+import com.projeto.restaurante.exceptions.UnregisteredAttendantException;
 import com.projeto.restaurante.identities.Attendant;
 import com.projeto.restaurante.repository.AttendantRepositpry;
 import lombok.AllArgsConstructor;
@@ -27,7 +26,7 @@ public class AttendantService {
 
         Optional<Attendant> attendantOptional = repositpry.findByName(attendantDto.getName());
         if(attendantOptional.isPresent()){
-            throw new AttendantAlreadyRegisteredExceptoin();
+            throw new AttendantAlreadyRegisteredException();
         }
         attendantDto.setName(stringConverter(attendantDto.getName()));
         Attendant attendant = mapper.map(attendantDto, Attendant.class);
@@ -38,7 +37,7 @@ public class AttendantService {
     public List<AttendantDto> findAll(){
         List<Attendant> attendantList = repositpry.findAll();
         if(attendantList.isEmpty()){
-            throw new UnregisteredAttendantExceptoin();
+            throw new UnregisteredAttendantException();
         }
         return attendantList.stream().
                 map(AttendantDto::new).
@@ -48,7 +47,7 @@ public class AttendantService {
     public List<AttendantDto> findByName(String name){
         List<Attendant> attendantList = repositpry.findAllByName(name);
         if(attendantList.isEmpty()){
-            throw new UnregisteredAttendantExceptoin();
+            throw new UnregisteredAttendantException();
         }
         return attendantList.
                 stream().
@@ -59,11 +58,11 @@ public class AttendantService {
     public void update(String name, String nameUpdate){
         Optional<Attendant> attendantOptional = repositpry.findByName(name);
         if (attendantOptional.isEmpty()){
-            throw new UnregisteredAttendantExceptoin();
+            throw new UnregisteredAttendantException();
         }
         Optional<Attendant> attendantUpdating = repositpry.findByName(nameUpdate);
         if (attendantUpdating.isPresent()){
-            throw new AttendantAlreadyRegisteredExceptoin();
+            throw new AttendantAlreadyRegisteredException();
         }
         Attendant attendant = mapper.map(attendantOptional, Attendant.class);
         attendant.setName(stringConverter(nameUpdate));
@@ -73,7 +72,7 @@ public class AttendantService {
     public void delete(String name){
         Optional<Attendant> attendantOptional = repositpry.findByName(name);
         if(attendantOptional.isEmpty()){
-            throw new UnregisteredAttendantExceptoin();
+            throw new UnregisteredAttendantException();
         }
         repositpry.deleteById(attendantOptional.get().getId());
     }
