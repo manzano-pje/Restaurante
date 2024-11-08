@@ -1,15 +1,16 @@
 package com.projeto.restaurante.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.projeto.restaurante.identities.Group;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class GroupDto {
-    private int id;
+
     private String name;
+
+    public GroupDto(Group group) {
+        this.name = group.getName();
+    }
 }
