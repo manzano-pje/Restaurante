@@ -14,6 +14,6 @@ public interface AttendantRepositpry extends JpaRepository<Attendant, Integer> {
 
     Optional<Attendant> findByName(String name);
 
-    @Query(value = "SELECT * FROM tb_attendant WHERE name LIKE CONCAT('%', :name, '%')",nativeQuery = true)
+    @Query(value = "SELECT * FROM tb_attendant WHERE name LIKE CONCAT('%', :name, '%')", nativeQuery = true)
     List<Attendant> findAllByName(@Param("name") String name);
 }

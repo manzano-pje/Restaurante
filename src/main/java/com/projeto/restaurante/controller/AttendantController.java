@@ -28,7 +28,7 @@ public class AttendantController {
     }
 
     @GetMapping
-    public List<AttendantDto> listarTodos(){
+    public List<AttendantDto> findAll(){
         return attendantService.findAll();
     }
 

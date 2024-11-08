@@ -32,6 +32,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({EmptyGroupListException.class})
+    public ResponseEntity<Object> handleEmptyGroupListException(EmptyGroupListException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
+
+
 
     // Captura erros gerais de sistema
     @ExceptionHandler(MethodArgumentNotValidException.class)
