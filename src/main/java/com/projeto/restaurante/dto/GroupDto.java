@@ -8,9 +8,11 @@ import lombok.*;
 @Data
 public class GroupDto {
 
+    private int id;
     private String name;
 
     public GroupDto(Group group) {
+        this.id = group.getId();
         this.name = group.getName();
     }
 }

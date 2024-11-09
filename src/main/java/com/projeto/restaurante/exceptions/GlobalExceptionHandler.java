@@ -43,19 +43,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({SeatingAlreadyRegisteredException.class})
-    public ResponseEntity<Object> handleTableAlreadyRegisteredException(SeatingAlreadyRegisteredException ex) {
+    public ResponseEntity<Object> handleTSeatingAlreadyRegisteredException(SeatingAlreadyRegisteredException ex) {
         return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler({UnregisteredSeatingException.class})
-    public ResponseEntity<Object> handleUnregisteredTableException(UnregisteredSeatingException ex) {
+    public ResponseEntity<Object> handleUnregisteredeatingException(UnregisteredSeatingException ex) {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({EmptySeatingListException.class})
-    public ResponseEntity<Object> handleEmptyTableListException(EmptySeatingListException ex) {
+    public ResponseEntity<Object> handleEmptyeatingListException(EmptySeatingListException ex) {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler({ProductAlreadyRegisteredException.class})
+    public ResponseEntity<Object> handleProductAlreadyRegisteredException(ProductAlreadyRegisteredException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
+    }
+
 
 
     // Captura erros gerais de sistema

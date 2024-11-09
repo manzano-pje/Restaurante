@@ -7,16 +7,16 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductsDto {
+public class ProductDto {
     private int id;
-    private String name;
+    private String nameProduct;
     private int group;
     private double salePrice;
     private double costPrice;
     private UnidadeDeMedida unidadeDeMedida;
 
-    public ProductsDto(Product product) {
-        this.name = product.getName();
+    public ProductDto(Product product) {
+        this.nameProduct = product.getNameProduct();
         this.group = product.getProductGroup();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
