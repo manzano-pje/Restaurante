@@ -5,29 +5,35 @@ import com.projeto.restaurante.identities.Product;
 import com.projeto.restaurante.identities.UnidadeDeMedida;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProductDto {
+public class ProductReturnDto {
     private int id;
     private String nameProduct;
     private int group;
     private double salePrice;
     private double costPrice;
+    @Enumerated(EnumType.STRING)
     private UnidadeDeMedida unidadeDeMedida;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date registratrionDate;
     private int stock;
     private int minimumStock;
 
-    public ProductDto(Product product) {
+    public ProductReturnDto(Product product) {
         this.nameProduct = product.getNameProduct();
         this.group = product.getProductGroup();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();
+        this.registratrionDate = product.getRegistratrionDate();
         this.stock = product.getStock();
         this.minimumStock = product.getMinimumStock();
     }

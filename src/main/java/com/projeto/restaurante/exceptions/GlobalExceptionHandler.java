@@ -62,6 +62,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler({UnregisteredProductException.class})
+    public ResponseEntity<Object> handleUnregisteredProductException(UnregisteredProductException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({EmptyProductsListExceptions.class})
+    public ResponseEntity<Object> handleEmptyProductsListExceptions(EmptyProductsListExceptions ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
 
 
     // Captura erros gerais de sistema
