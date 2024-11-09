@@ -22,6 +22,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({EmptyAttendantListException.class})
+    public ResponseEntity<Object> handleEEmptyAttendantListException(EmptyAttendantListException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler({GroupAlreadyRegisteredException.class})
     public ResponseEntity<Object> handleGroupAlreadyRegisteredException(GroupAlreadyRegisteredException ex) {
         return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
@@ -37,6 +42,20 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({SeatingAlreadyRegisteredException.class})
+    public ResponseEntity<Object> handleTableAlreadyRegisteredException(SeatingAlreadyRegisteredException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({UnregisteredSeatingException.class})
+    public ResponseEntity<Object> handleUnregisteredTableException(UnregisteredSeatingException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({EmptySeatingListException.class})
+    public ResponseEntity<Object> handleEmptyTableListException(EmptySeatingListException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
 
 
     // Captura erros gerais de sistema
