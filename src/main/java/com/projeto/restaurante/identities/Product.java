@@ -34,7 +34,7 @@ public class Product {
     /******** RELATIONS ********/
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "name")
+    @JoinColumn(name = "product_group_id")
     private Group group;
 
 }
