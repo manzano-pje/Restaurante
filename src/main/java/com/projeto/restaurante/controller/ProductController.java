@@ -5,6 +5,7 @@ import com.projeto.restaurante.dto.ProductReturnDto;
 import com.projeto.restaurante.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,13 +33,19 @@ public class ProductController {
         return service.findAll();
     }
 
-    @GetMapping("/product/{product}")
-    public ProductReturnDto findOne(@PathVariable String product){
-        return service.findOne(product);
+    @GetMapping("/product/{name}")
+    public ProductReturnDto findOne(@PathVariable String name){
+        return service.findOne(name);
     }
 
     @GetMapping("/group/{group}")
     public List<ProductReturnDto> findbyGroup(@PathVariable int group){
         return service.findbyGroup(group);
+    }
+
+    @PatchMapping("/{name}")
+    public ResponseEntity<Object> Update(@PathVariable String name, @RequestBody @Valid ProductDto productDto){
+        service.update(name, productDto);
+        return ResponseEntity.status(HttpStatus.OK).body("Produto atualizado com sucesso!");
     }
 }

@@ -61,7 +61,7 @@ public class ProductService {
         if(productOptional.isEmpty()){
             throw new UnregisteredProductException();
         }
-        return mapper.map(productOptional, ProductReturnDto.class);;
+        return mapper.map(productOptional, ProductReturnDto.class);
     }
 
     public List<ProductReturnDto> findbyGroup(int group){
@@ -71,5 +71,17 @@ public class ProductService {
         }
         return productList.stream().
                 map(ProductReturnDto::new).collect(Collectors.toList());
+    }
+
+    public void update(String name, ProductDto productDto){
+        Optional<Product> productOptional = productRepository.findByNameProduct(name);
+        if(productOptional.isEmpty()){
+            throw new UnregisteredProductException();
+        }
+
+        Product product = mapper.map(productDto, Product.class);
+        product.setId(productOptional.get().getId());
+        product.setRegistrationDate(productOptional.get().getRegistrationDate());
+        productRepository.save(product);
     }
 }
