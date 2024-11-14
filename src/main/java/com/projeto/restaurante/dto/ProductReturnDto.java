@@ -23,18 +23,22 @@ public class ProductReturnDto {
     @Enumerated(EnumType.STRING)
     private UnidadeDeMedida unidadeDeMedida;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private Date registratrionDate;
+    private Date registrationDate;
     private int stock;
     private int minimumStock;
 
-    public ProductReturnDto(Product product) {
+
+    public ProductReturnDto(Product product){
         this.nameProduct = product.getNameProduct();
         this.group = product.getProductGroup();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();
-        this.registratrionDate = product.getRegistratrionDate();
+        this.registrationDate = product.getRegistrationDate();
         this.stock = product.getStock();
         this.minimumStock = product.getMinimumStock();
     }
 }
+
+
+

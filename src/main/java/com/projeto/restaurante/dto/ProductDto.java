@@ -24,7 +24,7 @@ public class ProductDto {
 
     public ProductDto(Product product) {
         this.nameProduct = product.getNameProduct();
-        this.group = product.getProductGroup();
+        this.group = product.getGroup().getId();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();

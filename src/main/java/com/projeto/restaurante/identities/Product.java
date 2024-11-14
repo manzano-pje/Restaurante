@@ -27,14 +27,13 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private UnidadeDeMedida unidadeDeMedida;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private Date registratrionDate;
+    private Date registrationDate;
     private int stock;
     private int minimumStock;
 
     /******** RELATIONS ********/
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "name")
+    @JoinColumn(name = "product_group_id")
     private Group group;
-
 }
