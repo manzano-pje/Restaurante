@@ -6,6 +6,7 @@ import com.projeto.restaurante.dto.ProductReturnDto;
 import com.projeto.restaurante.exceptions.EmptyProductsListExceptions;
 import com.projeto.restaurante.exceptions.ProductAlreadyRegisteredException;
 import com.projeto.restaurante.exceptions.UnregisteredGroupException;
+import com.projeto.restaurante.exceptions.UnregisteredProductException;
 import com.projeto.restaurante.identities.Group;
 import com.projeto.restaurante.identities.Product;
 import com.projeto.restaurante.repository.GroupRepository;
@@ -28,7 +29,7 @@ public class ProductService {
     private final ModelMapper mapper;
 
     public ProductReturnDto create(ProductDto productDto){
-        Optional<Product> productOptional = productRepository.findBynameProduct(productDto.getNameProduct());
+        Optional<Product> productOptional = productRepository.findByNameProduct(productDto.getNameProduct());
         if(productOptional.isPresent()){
             throw new ProductAlreadyRegisteredException();
         }
@@ -39,7 +40,7 @@ public class ProductService {
 
         Product product = mapper.map(productDto, Product.class);
         product.setNameProduct(TextConverter.stringConverter(productDto.getNameProduct()));
-        product.setRegistratrionDate(new Date());
+        product.setRegistrationDate(new Date());
         productRepository.save(product);
         return mapper.map(product, ProductReturnDto.class);
     }
@@ -53,5 +54,22 @@ public class ProductService {
                 stream().
                 map(ProductReturnDto::new).
                 collect(Collectors.toList());
+    }
+
+    public ProductReturnDto findOne(String product){
+        Optional<Product> productOptional = productRepository.findByNameProduct(product);
+        if(productOptional.isEmpty()){
+            throw new UnregisteredProductException();
+        }
+        return mapper.map(productOptional, ProductReturnDto.class);;
+    }
+
+    public List<ProductReturnDto> findbyGroup(int group){
+        List<Product> productList = productRepository.findByProductGroup(group);
+        if(productList.isEmpty()){
+            throw new UnregisteredProductException();
+        }
+        return productList.stream().
+                map(ProductReturnDto::new).collect(Collectors.toList());
     }
 }

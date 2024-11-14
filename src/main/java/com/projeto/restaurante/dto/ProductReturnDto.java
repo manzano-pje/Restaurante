@@ -34,7 +34,7 @@ public class ProductReturnDto {
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();
-        this.registrationDate = product.getRegistratrionDate();
+        this.registrationDate = product.getRegistrationDate();
         this.stock = product.getStock();
         this.minimumStock = product.getMinimumStock();
     }

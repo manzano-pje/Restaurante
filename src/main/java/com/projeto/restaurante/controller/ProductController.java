@@ -31,4 +31,14 @@ public class ProductController {
     public List<ProductReturnDto> findAll(){
         return service.findAll();
     }
+
+    @GetMapping("/product/{product}")
+    public ProductReturnDto findOne(@PathVariable String product){
+        return service.findOne(product);
+    }
+
+    @GetMapping("/group/{group}")
+    public List<ProductReturnDto> findbyGroup(@PathVariable int group){
+        return service.findbyGroup(group);
+    }
 }
