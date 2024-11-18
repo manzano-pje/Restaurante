@@ -48,4 +48,10 @@ public class ProductController {
         service.update(name, productDto);
         return ResponseEntity.status(HttpStatus.OK).body("Produto atualizado com sucesso!");
     }
+
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Object> delete(@PathVariable String name){
+        service.delete(name);
+        return ResponseEntity.status(HttpStatus.OK).body("Produto excluído com sucesso!");
+    }
 }

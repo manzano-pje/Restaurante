@@ -84,4 +84,12 @@ public class ProductService {
         product.setRegistrationDate(productOptional.get().getRegistrationDate());
         productRepository.save(product);
     }
+
+    public void delete(String name){
+        Optional<Product> productOptional = productRepository.findByNameProduct(name);
+        if(productOptional.isEmpty()){
+            throw new UnregisteredProductException();
+        }
+        productRepository.deleteById(productOptional.get().getId());
+    }
 }
