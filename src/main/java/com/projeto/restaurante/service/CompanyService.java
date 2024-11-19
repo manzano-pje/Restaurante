@@ -1,5 +1,6 @@
 package com.projeto.restaurante.service;
 
+import com.projeto.restaurante.configuration.TextConverter;
 import com.projeto.restaurante.dto.CompanyDto;
 import com.projeto.restaurante.exceptions.CompanyAlreadyRegisteredException;
 import com.projeto.restaurante.exceptions.UnregisteredCompanyException;
@@ -24,8 +25,9 @@ public class CompanyService {
         }
 
         Company company = mapper.map(companyDto, Company.class);
-        companyRepository.save(company);
-        return mapper.map(company, CompanyDto.class);
+        Company companyConverter = stringConverter(company);
+        companyRepository.save(companyConverter);
+        return mapper.map(companyConverter, CompanyDto.class);
     }
 
     public CompanyDto findCompany(){
@@ -42,8 +44,24 @@ public class CompanyService {
             throw new UnregisteredCompanyException();
         }
         Company company = mapper.map(companyDto, Company.class);
-        company.setId(companyOptional.get().getId());
-        companyRepository.save(company);
+        Company companyConverter = stringConverter(company);
+        companyConverter.setId(companyOptional.get().getId());
+        companyRepository.save(companyConverter);
+    }
 
+    private Company stringConverter(Company company){
+        Company companyConverter = new Company();
+        companyConverter.setName(TextConverter.stringConverter(company.getName()));
+        companyConverter.setAdress(TextConverter.stringConverter(company.getAdress()));
+        companyConverter.setNumber(company.getNumber());
+        companyConverter.setComplement(TextConverter.stringConverter(company.getComplement()));
+        companyConverter.setNeighborhood(TextConverter.stringConverter(company.getNeighborhood()));
+        companyConverter.setCity(TextConverter.stringConverter(company.getCity()));
+        companyConverter.setUf(company.getUf().toUpperCase());
+        companyConverter.setZipcode(company.getZipcode());
+        companyConverter.setCnpj(company.getCnpj());
+        companyConverter.setEmail(company.getEmail().toLowerCase());
+        companyConverter.setPhone(company.getPhone());
+        return companyConverter;
     }
 }
