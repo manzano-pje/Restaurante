@@ -21,7 +21,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nameProduct;
-    private int productGroup;
     private double salePrice;
     private double costPrice;
     @Enumerated(EnumType.STRING)
@@ -34,6 +33,7 @@ public class Product {
     /******** RELATIONS ********/
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_group_id")
-    private Group group;
+    @JoinColumn(name = "group_id", nullable = false)
+    private Group productGroup;
+
 }
