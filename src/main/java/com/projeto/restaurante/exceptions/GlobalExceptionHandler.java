@@ -72,6 +72,19 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({CompanyAlreadyRegisteredException.class})
+    public ResponseEntity<Object> handleCompanyAlreadyRegisteredException(CompanyAlreadyRegisteredException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({UnregisteredCompanyException.class})
+    public ResponseEntity<Object> handleUnregisteredCompanyException(UnregisteredCompanyException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
+
+
+
+
 
     // Captura erros gerais de sistema
     @ExceptionHandler(MethodArgumentNotValidException.class)

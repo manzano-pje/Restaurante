@@ -1,14 +1,11 @@
 package com.projeto.restaurante.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.projeto.restaurante.identities.Company;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class CompanyDto {
 
     private int id;
@@ -24,4 +21,17 @@ public class CompanyDto {
     private String email;
     private String phone;
 
+    public CompanyDto(Company company) {
+        this.name = company.getName();
+        this.adress = company.getAdress();
+        this.number = company.getNumber();
+        this.complement = company.getComplement();
+        this.neighborhood = company.getNeighborhood();
+        this.city = company.getCity();
+        this.uf = company.getUf();
+        this.zipcode = company.getZipcode();
+        this.cnpj = company.getCnpj();
+        this.email = company.getEmail();
+        this.phone = company.getPhone();
+    }
 }
