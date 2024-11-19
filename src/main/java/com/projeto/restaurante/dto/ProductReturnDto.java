@@ -17,10 +17,10 @@ import java.util.Date;
 public class ProductReturnDto {
     private int id;
     private String nameProduct;
-    private int group;
+    private String groupName;
     private double salePrice;
     private double costPrice;
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     private UnidadeDeMedida unidadeDeMedida;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date registrationDate;
@@ -30,7 +30,7 @@ public class ProductReturnDto {
 
     public ProductReturnDto(Product product){
         this.nameProduct = product.getNameProduct();
-        this.group = product.getProductGroup();
+        this.groupName = product.getProductGroup().getName();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();

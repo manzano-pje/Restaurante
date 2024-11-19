@@ -41,6 +41,7 @@ public class ProductService {
         Product product = mapper.map(productDto, Product.class);
         product.setNameProduct(TextConverter.stringConverter(productDto.getNameProduct()));
         product.setRegistrationDate(new Date());
+        product.setProductGroup(groupOptional.get());
         productRepository.save(product);
         return mapper.map(product, ProductReturnDto.class);
     }
@@ -65,7 +66,7 @@ public class ProductService {
     }
 
     public List<ProductReturnDto> findbyGroup(int group){
-        List<Product> productList = productRepository.findByProductGroup(group);
+        List<Product> productList = productRepository.findByProductGroup_id(group);
         if(productList.isEmpty()){
             throw new UnregisteredProductException();
         }
@@ -78,10 +79,15 @@ public class ProductService {
         if(productOptional.isEmpty()){
             throw new UnregisteredProductException();
         }
+        Optional<Group> groupOptional = groupRepository.findById(productDto.getGroup());
+        if(groupOptional.isEmpty()){
+            throw new UnregisteredGroupException();
+        }
 
         Product product = mapper.map(productDto, Product.class);
         product.setId(productOptional.get().getId());
         product.setRegistrationDate(productOptional.get().getRegistrationDate());
+        product.setProductGroup(groupOptional.get());
         productRepository.save(product);
     }
 
