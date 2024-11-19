@@ -14,17 +14,14 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tb_product", indexes = {
-        @Index(name = "idx_product_group_id", columnList = "group_id")
-})
+@Table(name = "tb_product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nameProduct;
-
-//    private int productGroup;
+    private int productGroup;
     private double salePrice;
     private double costPrice;
     @Enumerated(EnumType.STRING)
@@ -37,6 +34,6 @@ public class Product {
     /******** RELATIONS ********/
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_group_id",nullable = false)
+    @JoinColumn(name = "product_group_id")
     private Group group;
 }

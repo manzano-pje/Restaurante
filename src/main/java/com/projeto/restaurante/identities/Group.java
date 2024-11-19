@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,6 +23,6 @@ public class Group {
 
     /******** RELATIONS ********/
 
-    @OneToMany (mappedBy = "group", cascade = CascadeType.ALL)
-    private List<Product> productList = new ArrayList<>();
+    @OneToMany (mappedBy = "group")
+    private List<Product> productList;
 }

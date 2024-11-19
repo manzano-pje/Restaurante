@@ -1,7 +1,6 @@
 package com.projeto.restaurante.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.projeto.restaurante.identities.Group;
 import com.projeto.restaurante.identities.Product;
 import com.projeto.restaurante.identities.UnidadeDeMedida;
 import jakarta.persistence.EnumType;
@@ -18,7 +17,7 @@ import java.util.Date;
 public class ProductReturnDto {
     private int id;
     private String nameProduct;
-    private Group productGroup;
+    private int group;
     private double salePrice;
     private double costPrice;
     @Enumerated(EnumType.STRING)
@@ -31,7 +30,7 @@ public class ProductReturnDto {
 
     public ProductReturnDto(Product product){
         this.nameProduct = product.getNameProduct();
-        this.productGroup = product.getGroup();
+        this.group = product.getProductGroup();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();
@@ -40,6 +39,3 @@ public class ProductReturnDto {
         this.minimumStock = product.getMinimumStock();
     }
 }
-
-
-
