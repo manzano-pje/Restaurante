@@ -33,15 +33,16 @@ public class ProductService {
         if(productOptional.isPresent()){
             throw new ProductAlreadyRegisteredException();
         }
-        Optional<Group> groupOptional = groupRepository.findById(productDto.getGroup());
-        if(groupOptional.isEmpty()){
-            throw new UnregisteredGroupException();
-        }
+        Group group = groupRepository.findById(productDto.getProductGroup()).
+                orElseThrow(UnregisteredGroupException::new);
 
         Product product = mapper.map(productDto, Product.class);
         product.setNameProduct(TextConverter.stringConverter(productDto.getNameProduct()));
         product.setRegistrationDate(new Date());
+        product.setGroup(group);
         productRepository.save(product);
+
+
         return mapper.map(product, ProductReturnDto.class);
     }
 
@@ -64,7 +65,7 @@ public class ProductService {
         return mapper.map(productOptional, ProductReturnDto.class);
     }
 
-    public List<ProductReturnDto> findbyGroup(int group){
+    public List<ProductReturnDto> findbyGroup(String group){
         List<Product> productList = productRepository.findByProductGroup(group);
         if(productList.isEmpty()){
             throw new UnregisteredProductException();

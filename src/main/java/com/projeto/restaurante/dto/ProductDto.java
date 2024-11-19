@@ -1,13 +1,8 @@
 package com.projeto.restaurante.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.projeto.restaurante.identities.Product;
 import com.projeto.restaurante.identities.UnidadeDeMedida;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.*;
-
-import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +10,7 @@ import java.util.Date;
 public class ProductDto {
     private int id;
     private String nameProduct;
-    private int group;
+    private int productGroup;
     private double salePrice;
     private double costPrice;
     private UnidadeDeMedida unidadeDeMedida;
@@ -24,7 +19,7 @@ public class ProductDto {
 
     public ProductDto(Product product) {
         this.nameProduct = product.getNameProduct();
-        this.group = product.getGroup().getId();
+        this.productGroup = product.getGroup().getId();
         this.salePrice = product.getSalePrice();
         this.costPrice = product.getCostPrice();
         this.unidadeDeMedida = product.getUnidadeDeMedida();

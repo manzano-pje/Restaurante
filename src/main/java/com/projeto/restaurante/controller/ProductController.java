@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @GetMapping("/group/{group}")
-    public List<ProductReturnDto> findbyGroup(@PathVariable int group){
+    public List<ProductReturnDto> findbyGroup(@PathVariable String group){
         return service.findbyGroup(group);
     }
 
