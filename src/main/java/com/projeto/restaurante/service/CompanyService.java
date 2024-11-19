@@ -8,8 +8,6 @@ import com.projeto.restaurante.repository.CompanyRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,5 +34,16 @@ public class CompanyService {
             throw new UnregisteredCompanyException();
         }
         return mapper.map(companyOptional, CompanyDto.class);
+    }
+
+    public void update(String cnpj, CompanyDto companyDto){
+        Optional<Company> companyOptional = companyRepository.findByCnpj(cnpj);
+        if(companyOptional.isEmpty()){
+            throw new UnregisteredCompanyException();
+        }
+        Company company = mapper.map(companyDto, Company.class);
+        company.setId(companyOptional.get().getId());
+        companyRepository.save(company);
+
     }
 }

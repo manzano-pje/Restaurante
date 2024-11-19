@@ -4,6 +4,7 @@ import com.projeto.restaurante.dto.CompanyDto;
 import com.projeto.restaurante.service.CompanyService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,5 +29,11 @@ public class CompanyController {
     @GetMapping
     public CompanyDto findCompany(){
         return companyService.findCompany();
+    }
+
+    @PatchMapping("/{cnpj}")
+    public ResponseEntity<Object> update(@PathVariable String cnpj, @RequestBody @Valid CompanyDto companyDto){
+        companyService.update(cnpj, companyDto);
+        return ResponseEntity.status(HttpStatus.OK).body("Empresa autalizlada com sucesso!");
     }
 }
