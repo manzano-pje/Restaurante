@@ -11,6 +11,7 @@ public class AttendantDto {
     private String name;
 
     public AttendantDto(Attendant attendant) {
+
         this.name = attendant.getName();
     }
 }
