@@ -36,4 +36,10 @@ public class CompanyController {
         companyService.update(cnpj, companyDto);
         return ResponseEntity.status(HttpStatus.OK).body("Empresa autalizlada com sucesso!");
     }
+
+    @DeleteMapping("/{cnpj}")
+    public ResponseEntity<Object> delete(@PathVariable String cnpj){
+        companyService.delete(cnpj);
+        return ResponseEntity.status(HttpStatus.OK).body("Empresa apagada com sucesso!");
+    }
 }

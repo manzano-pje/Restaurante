@@ -49,6 +49,14 @@ public class CompanyService {
         companyRepository.save(companyConverter);
     }
 
+    public void delete(String cnpj){
+        Optional<Company> companyOptional = companyRepository.findByCnpj(cnpj);
+        if(companyOptional.isEmpty()){
+            throw new UnregisteredCompanyException();
+        }
+        companyRepository.deleteById(companyOptional.get().getId());
+    }
+
     private Company stringConverter(Company company){
         Company companyConverter = new Company();
         companyConverter.setName(TextConverter.stringConverter(company.getName()));
