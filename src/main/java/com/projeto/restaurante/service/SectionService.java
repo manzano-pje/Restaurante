@@ -10,7 +10,9 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -28,5 +30,13 @@ public class SectionService {
         section.setName(TextConverter.stringConverter(section.getName()));
         sectionRepository.save(section);
         return mapper.map(section, SectionDto.class);
+    }
+
+    public List<SectionDto> findAll(){
+        List<Section> sectionList = sectionRepository.findAll();
+        if(sectionList.isEmpty()){
+            throw new UnregisteredSectionException();
+        }
+        return sectionList.stream().map(SectionDto::new).collect(Collectors.toList());
     }
 }
