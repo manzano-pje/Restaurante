@@ -31,4 +31,9 @@ public class SectionController {
     public List<SectionDto> findAll(){
         return sectionService.findAll();
     }
+
+    @GetMapping("/{section}")
+    public SectionDto findOneSection(@PathVariable String section){
+        return sectionService.findOneSection(section);
+    }
 }

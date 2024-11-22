@@ -39,4 +39,13 @@ public class SectionService {
         }
         return sectionList.stream().map(SectionDto::new).collect(Collectors.toList());
     }
+
+    public SectionDto findOneSection(String section){
+        Optional<Section> sectionOptional = sectionRepository.findByName(section);
+        if(sectionOptional.isEmpty()){
+            throw new UnregisteredSectionException();
+        }
+        return mapper.map(sectionOptional, SectionDto.class);
+    }
+
 }
