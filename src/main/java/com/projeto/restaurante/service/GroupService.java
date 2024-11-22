@@ -60,14 +60,6 @@ public class GroupService {
         return mapper.map(optionalGroup, GroupDto.class);
     }
 
-//    public List<GroupDto> findAllBySection(String section){
-//        List<Group> groupList = groupRepository.findAllBySection(section);
-//        if(groupList.isEmpty()){
-//            throw new UnregisteredGroupException();
-//        }
-//        return groupList.stream().map(GroupDto::new).collect(Collectors.toList());
-//    }
-
     public void update(String name, String groupUpdade){
         Optional<Group> groupOptional = groupRepository.findByName(name);
         if(groupOptional.isEmpty()){

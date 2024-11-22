@@ -2,16 +2,18 @@ package com.projeto.restaurante.dto;
 
 import com.projeto.restaurante.identities.Section;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class SectionDto {
 
-    int id;
+    private int id;
     @NonNull
-    String name;
+    private String name;
 
     public SectionDto(Section section) {
         this.id = section.getId();

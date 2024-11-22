@@ -82,6 +82,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({AlreadySectionRegisteredException.class})
+    public ResponseEntity<Object> handleAlreadySectionRegisteredException(AlreadySectionRegisteredException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler({UnregisteredSectionException.class})
+    public ResponseEntity<Object> handleUnregisteredSectionException(UnregisteredSectionException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
+
 
 
 
