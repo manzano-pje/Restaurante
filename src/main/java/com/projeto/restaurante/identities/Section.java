@@ -22,6 +22,7 @@ public class Section {
     @NonNull
     String name;
 
+    /******** RELATIONS ********/
 
     @OneToMany (mappedBy = "sectionGroup",cascade = CascadeType.ALL)
     private List<Group> groups = new ArrayList<>();
