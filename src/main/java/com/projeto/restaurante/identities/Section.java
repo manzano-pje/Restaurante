@@ -2,28 +2,28 @@ package com.projeto.restaurante.identities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Table(name = "tb_section")
 public class Section {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int sectionId;
-    @NonNull
-    String name;
+    private int id;
+    private String name;
 
     /******** RELATIONS ********/
 
-    @OneToMany (mappedBy = "sectionGroup",cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "groupSection",cascade = CascadeType.ALL)
     private List<Group> groups = new ArrayList<>();
 }

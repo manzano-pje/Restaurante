@@ -29,5 +29,5 @@ public class Group {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "section_id", nullable = false)
-    private Section sectionGroup;
+    private Section groupSection;
 }
