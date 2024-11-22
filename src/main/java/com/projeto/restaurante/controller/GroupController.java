@@ -38,6 +38,11 @@ public class GroupController {
         return groupDto;
     }
 
+//    @GetMapping("/{section}")
+//    public List<GroupDto> findAllBySection(@PathVariable String section){
+//        return groupService.findAllBySection(section);
+//    }
+
     @PatchMapping("/{name}")
     public ResponseEntity<Object> update(@PathVariable String name, String nameUpdate){
         groupService.update(name, nameUpdate);

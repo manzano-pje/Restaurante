@@ -9,12 +9,12 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class SectionDto {
 
-    int sectionId;
+    int id;
     @NonNull
     String name;
 
     public SectionDto(Section section) {
-        this.sectionId = section.getSectionId();
+        this.id = section.getId();
         this.name = section.getName();
     }
 }

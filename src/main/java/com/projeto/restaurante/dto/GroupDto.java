@@ -10,11 +10,12 @@ public class GroupDto {
 
     private int id;
     private String name;
-    private int sectoinId;
+    private int sectionId;
 
     public GroupDto(Group group) {
         this.id = group.getId();
         this.name = group.getName();
-        this.sectoinId = group.getSectionGroup().getSectionId();
+        this.sectionId = group.getGroupSection().getId();
     }
 }
+
