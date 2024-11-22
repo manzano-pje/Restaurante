@@ -26,4 +26,8 @@ public class Group {
 
     @OneToMany (mappedBy = "productGroup",cascade = CascadeType.ALL)
     private List<Product> products = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "section_id", nullable = false)
+    private Section sectionGroup;
 }
