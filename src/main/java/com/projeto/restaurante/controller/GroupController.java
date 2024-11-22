@@ -32,10 +32,15 @@ public class GroupController {
         return groupService.listAll();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/group/{name}")
     public GroupDto findOne(@PathVariable String name){
         GroupDto groupDto = groupService.findOne(name);
         return groupDto;
+    }
+
+    @GetMapping("/section/{section}")
+    public List<GroupDto> findGroupBySection(@PathVariable String section){
+        return groupService.findGroupBySection(section);
     }
 
     @PatchMapping("/{name}")
