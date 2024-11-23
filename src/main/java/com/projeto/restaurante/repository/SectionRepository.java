@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SectionRepository extends JpaRepository<Section, Integer> {
     Optional<Section> findByName(String name);
+    Section findSectionByName(String name);
 }
