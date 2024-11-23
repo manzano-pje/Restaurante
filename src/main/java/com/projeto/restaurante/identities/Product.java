@@ -36,4 +36,8 @@ public class Product {
     @JoinColumn(name = "group_id", nullable = false)
     private Group productGroup;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "request_id", nullable = false)
+    private Request productRequest;
+
 }
