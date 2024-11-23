@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -18,4 +21,9 @@ public class Seating {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    /******** RELATIONS ********/
+
+    @OneToMany (mappedBy = "requestSeating",cascade = CascadeType.ALL)
+    private List<Request> requests = new ArrayList<>();
 }

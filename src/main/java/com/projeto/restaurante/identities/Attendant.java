@@ -1,11 +1,10 @@
 package com.projeto.restaurante.identities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,4 +18,9 @@ public class Attendant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    /******** RELATIONS ********/
+
+    @OneToMany (mappedBy = "requestAttendant",cascade = CascadeType.ALL)
+    private List<Request> requests = new ArrayList<>();
 }
