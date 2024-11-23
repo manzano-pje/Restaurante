@@ -44,5 +44,9 @@ public class SectionController {
         return ResponseEntity.status(HttpStatus.OK).body("Seção atualizada com sucesso!");
     }
 
-
+    @DeleteMapping("/{section}")
+    public ResponseEntity<Object> delete(@PathVariable String section){
+        sectionService.delete(section);
+        return ResponseEntity.status(HttpStatus.OK).body("Seção excluída com sucesso!");
+    }
 }

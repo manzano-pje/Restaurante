@@ -59,4 +59,12 @@ public class SectionService {
         sectionRepository.save(section);
     }
 
+    public void delete(String section){
+        Optional<Section> sectionOptional = sectionRepository.findByName(section);
+        if(sectionOptional.isEmpty()){
+            throw new UnregisteredSectionException();
+        }
+        sectionRepository.deleteById(sectionOptional.get().getId());
+    }
+
 }
