@@ -48,4 +48,15 @@ public class SectionService {
         return mapper.map(sectionOptional, SectionDto.class);
     }
 
+    public void update(String sectionName, SectionDto sectionDto){
+        Optional<Section> sectionOptional = sectionRepository.findByName(sectionName);
+        if(sectionOptional.isEmpty()){
+            throw new UnregisteredSectionException();
+        }
+        Section section = mapper.map(sectionOptional, Section.class);
+        section.setId(sectionOptional.get().getId());
+        section.setName(TextConverter.stringConverter(sectionDto.getName()));
+        sectionRepository.save(section);
+    }
+
 }

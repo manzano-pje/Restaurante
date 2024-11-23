@@ -70,7 +70,6 @@ public class GroupService {
             throw new UnregisteredGroupException();
         }
         return groupList.stream().map(GroupDto::new).collect(Collectors.toList());
-
     }
 
     public void update(String name, String groupUpdade){

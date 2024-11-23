@@ -4,6 +4,7 @@ import com.projeto.restaurante.dto.SectionDto;
 import com.projeto.restaurante.service.SectionService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -36,4 +37,12 @@ public class SectionController {
     public SectionDto findOneSection(@PathVariable String section){
         return sectionService.findOneSection(section);
     }
+
+    @PatchMapping("/{section}")
+    public ResponseEntity<Object> update(@PathVariable String section, @RequestBody @Valid SectionDto sectionDto){
+        sectionService.update(section, sectionDto);
+        return ResponseEntity.status(HttpStatus.OK).body("Seção atualizada com sucesso!");
+    }
+
+
 }
