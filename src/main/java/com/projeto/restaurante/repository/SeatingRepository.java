@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SeatingRepository extends JpaRepository<Seating, Integer> {
     Optional<Seating> findByName(String name);
+    Optional<Seating> findSeatingById(int id);
 }

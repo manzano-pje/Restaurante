@@ -16,24 +16,18 @@ import java.util.List;
 public class Request {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private int requestNumber;
-    private int attendantId;
-    private int productId;
-    private int seatingId;
-    private int quantity;
+    private long requestNumber;
     private double total;
-    private double subtotal;
     private Date openingDate;
     private Date closingDate;
-    private boolean free;
+    private boolean status;
 
     /******** RELATIONS ********/
-
-    @OneToMany (mappedBy = "productRequest",cascade = CascadeType.ALL)
-    private List<Product> products = new ArrayList<>();
+    @OneToMany (mappedBy = "request",cascade = CascadeType.ALL)
+    private List<RequestItem> itens = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "attendant_id", nullable = false)
@@ -42,10 +36,4 @@ public class Request {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seating_id", nullable = false)
     private Seating requestSeating;
-
-
-
-
-
-
 }
