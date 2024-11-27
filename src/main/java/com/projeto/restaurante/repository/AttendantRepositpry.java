@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface AttendantRepositpry extends JpaRepository<Attendant, Integer> {
 
     Optional<Attendant> findByName(String name);
+    Attendant findAttendantById(int id);
 
     @Query(value = "SELECT * FROM tb_attendant WHERE name LIKE CONCAT('%', :name, '%')", nativeQuery = true)
     List<Attendant> findAllByName(@Param("name") String name);

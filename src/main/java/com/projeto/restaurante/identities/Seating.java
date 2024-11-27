@@ -1,12 +1,10 @@
 package com.projeto.restaurante.identities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,7 +18,10 @@ public class Seating {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NonNull
     private String name;
+    private boolean status;
+    private Date OpeningDate;
 
     /******** RELATIONS ********/
 
