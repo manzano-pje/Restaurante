@@ -1,5 +1,6 @@
 package com.projeto.restaurante.controller;
 
+import com.projeto.restaurante.dto.ReturnRequestDto;
 import com.projeto.restaurante.dto.SeatingDto;
 import com.projeto.restaurante.service.SeatingService;
 import jakarta.validation.Valid;
@@ -17,11 +18,11 @@ import java.util.List;
 @RequestMapping("/api/v1/seating")
 public class SeatingController {
 
-    private final SeatingService service;
+    private final SeatingService seatingService;
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid SeatingDto seatingDto){
-        SeatingDto retorno = service.create(seatingDto);
+        SeatingDto retorno = seatingService.create(seatingDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("api/v1/seating").
                 buildAndExpand(retorno).toUri();
         return  ResponseEntity.created(uri).body("Mesa criada com sucesso!");
@@ -29,23 +30,23 @@ public class SeatingController {
 
     @GetMapping
     public List<SeatingDto> findAll(){
-        return service.findAll();
+        return seatingService.findAll();
     }
 
     @GetMapping("/{name}")
     public SeatingDto findOne(@PathVariable String name){
-        return service.findOne(name);
+        return seatingService.findOne(name);
     }
 
     @PatchMapping("/{name}")
     public ResponseEntity<Object> update(@PathVariable String name, String nameUpdate){
-        service.update(name, nameUpdate);
+        seatingService.update(name, nameUpdate);
         return ResponseEntity.status(HttpStatus.OK).body("Nome da mesa alterado com sucesso!");
     }
 
     @DeleteMapping("/{name}")
     public ResponseEntity<Object> delete(@PathVariable String name){
-        service.delete(name);
+        seatingService.delete(name);
         return ResponseEntity.status(HttpStatus.OK).body("Nome da mesa excluída com sucesso!");
     }
 }

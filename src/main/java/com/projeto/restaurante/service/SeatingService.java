@@ -1,10 +1,13 @@
 package com.projeto.restaurante.service;
 
 import com.projeto.restaurante.configuration.TextConverter;
+import com.projeto.restaurante.dto.ReturnRequestDto;
 import com.projeto.restaurante.dto.SeatingDto;
 import com.projeto.restaurante.exceptions.EmptySeatingListException;
 import com.projeto.restaurante.exceptions.SeatingAlreadyRegisteredException;
+import com.projeto.restaurante.exceptions.UnregisteredProductException;
 import com.projeto.restaurante.exceptions.UnregisteredSeatingException;
+import com.projeto.restaurante.identities.Request;
 import com.projeto.restaurante.identities.Seating;
 import com.projeto.restaurante.repository.SeatingRepository;
 
@@ -21,22 +24,22 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SeatingService {
 
-    private final SeatingRepository repository;
+    private final SeatingRepository seatingRepository;
     private final ModelMapper mapper;
 
     public SeatingDto create(SeatingDto seatingDto) {
-        Optional<Seating> seatingOptional = repository.findByName(seatingDto.getName());
+        Optional<Seating> seatingOptional = seatingRepository.findByName(seatingDto.getName());
         if (seatingOptional.isPresent()) {
             throw new SeatingAlreadyRegisteredException();
         }
         Seating seating = mapper.map(seatingDto, Seating.class);
         seating.setName(TextConverter.stringConverter(seatingDto.getName()));
-        repository.save(seating);
+        seatingRepository.save(seating);
         return mapper.map(seating, SeatingDto.class);
     }
 
     public List<SeatingDto> findAll() {
-        List<Seating> seatingList = repository.findAll();
+        List<Seating> seatingList = seatingRepository.findAll();
         if (seatingList.isEmpty()) {
             throw new EmptySeatingListException();
         }
@@ -47,7 +50,7 @@ public class SeatingService {
     }
 
     public SeatingDto findOne(String name) {
-        Optional<Seating> seatingOptional = repository.findByName(name);
+        Optional<Seating> seatingOptional = seatingRepository.findByName(name);
         if (seatingOptional.isEmpty()) {
             throw new UnregisteredSeatingException();
         }
@@ -55,24 +58,24 @@ public class SeatingService {
     }
 
     public void update(String name, String nameUpdate) {
-        Optional<Seating> seatingOptional = repository.findByName(name);
+        Optional<Seating> seatingOptional = seatingRepository.findByName(name);
         if (seatingOptional.isEmpty()) {
             throw new UnregisteredSeatingException();
         }
-        Optional<Seating> nameUpdateOptional = repository.findByName(nameUpdate);
+        Optional<Seating> nameUpdateOptional = seatingRepository.findByName(nameUpdate);
         if(nameUpdateOptional.isPresent()) {
             throw new SeatingAlreadyRegisteredException();
         }
         Seating seating = mapper.map(seatingOptional, Seating.class);
         seating.setName(TextConverter.stringConverter(nameUpdate));
-        repository.save(seating);
+        seatingRepository.save(seating);
     }
 
     public void delete(String name) {
-        Optional<Seating> seatingOptional = repository.findByName(name);
+        Optional<Seating> seatingOptional = seatingRepository.findByName(name);
         if (seatingOptional.isEmpty()) {
             throw new UnregisteredSeatingException();
         }
-        repository.deleteById(seatingOptional.get().getId());
+        seatingRepository.deleteById(seatingOptional.get().getId());
     }
 }
