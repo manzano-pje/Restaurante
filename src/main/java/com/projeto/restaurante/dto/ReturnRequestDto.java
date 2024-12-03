@@ -2,13 +2,13 @@ package com.projeto.restaurante.dto;
 
 import com.projeto.restaurante.identities.Request;
 import com.projeto.restaurante.identities.RequestItem;
+import com.projeto.restaurante.identities.Seating;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -16,30 +16,33 @@ import java.util.List;
 @Data
 public class ReturnRequestDto {
 
-    @NonNull
-    private long requestNumber;
-    @NonNull
-    private int attendantId;
-    @NonNull
-    private int seatingId;
-    @NonNull
+    private String seatingName;
+//    private String attendantName;
+    private String openingDate;
     private double total;
-    private Date openingDate;
-    private Date closingDate;
-    @NonNull
-    private boolean status;
-    @NonNull
+
     private List<RequestItemDto> itens = new ArrayList<>();
 
-    public ReturnRequestDto(Request request){
-        this.requestNumber = request.getRequestNumber();
-        this.attendantId = request.getRequestAttendant().getId();
-        this.seatingId = request.getRequestSeating().getId();
-        this.total = request.getTotal();
-        this.status = request.isStatus();
+    public ReturnRequestDto(Seating seating, List<Request> requests){
+        this.seatingName = seating.getName();
+        this.openingDate =requests.get(0).getOpeningDate() != null ?
+                new SimpleDateFormat("dd/MM/yyyy - HH:mm").
+                        format(requests.get(0).getOpeningDate()):null;
 
-        for(RequestItem item : request.getItens()){
-            this.itens.add(new RequestItemDto(item));
+
+    /*this.openingDate = requests.get(0).getOpeningDate() != null
+            ? new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(requests.get(0).getOpeningDate())
+            : nu*/
+
+        double totalSum = 0;
+        int itemNumber = 1;
+
+        for(Request request : requests){
+            for(RequestItem item : request.getItens()) {
+                this.itens.add(new RequestItemDto(item, itemNumber++));
+                totalSum += item.getSubtotal();
+            }
+            this.total = totalSum;
         }
     }
 }

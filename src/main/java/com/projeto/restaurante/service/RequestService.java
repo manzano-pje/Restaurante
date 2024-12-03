@@ -17,9 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -79,13 +77,6 @@ public class RequestService {
         return mapper.map(pedido, ReturnRequestDto.class);
     }
 
-    public List<ReturnRequestDto> listRequestBySeating(int seating){
-        List<Request> requestList = requestRepository.findRequestsBySeatingIdAndStatusTrue(seating);
-        if(requestList.isEmpty()){
-            throw new UnregisteredProductException();
-        }
-        return requestList.stream().
-                map(ReturnRequestDto::new).
-                collect(Collectors.toList());
-    }
+
 }
+

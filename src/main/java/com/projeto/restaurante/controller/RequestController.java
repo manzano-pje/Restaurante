@@ -27,8 +27,5 @@ public class RequestController {
         return ResponseEntity.created(uri).body("Pedido criado com sucesso!");
     }
 
-    @GetMapping("/{seating}")
-    public List<ReturnRequestDto> listRequestBySeating(@PathVariable int seating){
-        return requestService.listRequestBySeating(seating);
-    }
+
 }
