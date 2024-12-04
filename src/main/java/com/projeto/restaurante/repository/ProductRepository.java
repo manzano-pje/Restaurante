@@ -15,7 +15,4 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     List<Product> findByProductGroup_id(int poductGroupId);
 
-//    @Query("SELECT p FROM Product p JOIN p.group g WHERE g.name = :groupName")
-//    List<Product> findByProductGroup(@Param("groupName") String groupName);
-
 }

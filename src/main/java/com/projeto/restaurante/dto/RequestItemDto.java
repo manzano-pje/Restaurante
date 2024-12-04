@@ -1,21 +1,23 @@
 package com.projeto.restaurante.dto;
 
 import com.projeto.restaurante.identities.RequestItem;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class RequestItemDto {
-    private int productId;
+    private int itemNumber;
     private String productName;
     private int quantity;
+    private double subtotal;
 
-    public RequestItemDto(RequestItem requestItem){
-        this.productId = requestItem.getId();
-        this.productName = requestItem.getProduct().getNameProduct();
-        this.quantity = requestItem.getQuantity();
+    public RequestItemDto(RequestItem item, int itemNumber){
+        this.itemNumber = itemNumber;
+        this.productName = item.getProduct().getNameProduct();
+        this.quantity = item.getQuantity();
+        this.subtotal = item.getSubtotal();
     }
+
+
 }

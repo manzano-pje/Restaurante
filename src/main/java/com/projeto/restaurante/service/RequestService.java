@@ -5,6 +5,7 @@ import com.projeto.restaurante.dto.RequestItemInputDto;
 import com.projeto.restaurante.dto.ReturnRequestDto;
 import com.projeto.restaurante.exceptions.UnregisteredAttendantException;
 import com.projeto.restaurante.exceptions.UnregisteredProductException;
+import com.projeto.restaurante.exceptions.UnregisteredRequestException;
 import com.projeto.restaurante.exceptions.UnregisteredSeatingException;
 import com.projeto.restaurante.identities.*;
 import com.projeto.restaurante.repository.AttendantRepositpry;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -73,7 +75,17 @@ public class RequestService {
         double total = pedido.getItens().stream().mapToDouble(RequestItem::getSubtotal).sum();
         pedido.setTotal(total);
         pedido = requestRepository.save(pedido);
-
         return mapper.map(pedido, ReturnRequestDto.class);
     }
+
+//    @Transactional(readOnly = true)
+    public ReturnRequestDto listRequestBySeating(int seatingId){
+        List<Request> requestList = requestRepository.findRequestsBySeatingIdAndStatusTrue(seatingId);
+        if(requestList.isEmpty()){
+            throw new UnregisteredRequestException();
+        }
+        Seating seating = requestList.get(0).getRequestSeating();
+        return new ReturnRequestDto(seating, requestList);
+    }
 }
+
