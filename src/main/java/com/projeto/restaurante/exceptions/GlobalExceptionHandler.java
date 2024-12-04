@@ -92,6 +92,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler({UnregisteredRequestException.class})
+    public ResponseEntity<Object> handleUnregisteredRequestException(UnregisteredRequestException ex) {
+        return new ResponseEntity(ex.paraJson(), HttpStatus.NOT_FOUND);
+    }
 
 
 

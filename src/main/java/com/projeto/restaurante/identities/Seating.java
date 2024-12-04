@@ -21,7 +21,6 @@ public class Seating {
     @NonNull
     private String name;
     private boolean status;
-    private Date OpeningDate;
 
     /******** RELATIONS ********/
 

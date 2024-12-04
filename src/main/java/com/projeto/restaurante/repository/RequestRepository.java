@@ -15,7 +15,4 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
     List<Request> findRequestsBySeatingIdAndStatusTrue(@Param("seatingId") int seatingId);
 
 
-//
-//    @Query("SELECT r. FROM Request r WHERE r.requestSeating.id = :seatingId AND r.status = true")
-//    List<Request> findRequestsBySeatingIdAndStatusTrue(@Param("seatingId") int seatingId);
 }

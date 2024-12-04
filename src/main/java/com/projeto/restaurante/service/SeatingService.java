@@ -1,12 +1,9 @@
 package com.projeto.restaurante.service;
 
 import com.projeto.restaurante.configuration.TextConverter;
-import com.projeto.restaurante.dto.ReturnRequestDto;
 import com.projeto.restaurante.dto.SeatingDto;
 import com.projeto.restaurante.exceptions.*;
-import com.projeto.restaurante.identities.Request;
 import com.projeto.restaurante.identities.Seating;
-import com.projeto.restaurante.repository.RequestRepository;
 import com.projeto.restaurante.repository.SeatingRepository;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +20,6 @@ import java.util.stream.Collectors;
 public class SeatingService {
 
     private final SeatingRepository seatingRepository;
-    private final RequestRepository requestRepository;
     private final ModelMapper mapper;
 
     public SeatingDto create(SeatingDto seatingDto) {
@@ -78,12 +74,5 @@ public class SeatingService {
         seatingRepository.deleteById(seatingOptional.get().getId());
     }
 
-    public ReturnRequestDto listRequestBySeating(int seatingId){
-        List<Request> requestList = requestRepository.findRequestsBySeatingIdAndStatusTrue(seatingId);
-        if(requestList.isEmpty()){
-            throw new UnregisteredSeatingException();
-        }
-        Seating seating = requestList.get(0).getRequestSeating();
-        return new ReturnRequestDto(seating, requestList);
-    }
+
 }

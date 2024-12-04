@@ -3,6 +3,7 @@ package com.projeto.restaurante.dto;
 import com.projeto.restaurante.identities.RequestItem;
 import lombok.*;
 
+@NoArgsConstructor
 @Getter
 @Setter
 public class RequestItemDto {
@@ -17,4 +18,6 @@ public class RequestItemDto {
         this.quantity = item.getQuantity();
         this.subtotal = item.getSubtotal();
     }
+
+
 }

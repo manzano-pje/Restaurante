@@ -28,12 +28,6 @@ public class ReturnRequestDto {
         this.openingDate =requests.get(0).getOpeningDate() != null ?
                 new SimpleDateFormat("dd/MM/yyyy - HH:mm").
                         format(requests.get(0).getOpeningDate()):null;
-
-
-    /*this.openingDate = requests.get(0).getOpeningDate() != null
-            ? new SimpleDateFormat("dd/MM/yyyy - HH:mm").format(requests.get(0).getOpeningDate())
-            : nu*/
-
         double totalSum = 0;
         int itemNumber = 1;
 

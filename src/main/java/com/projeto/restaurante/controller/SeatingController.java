@@ -37,10 +37,7 @@ public class SeatingController {
     public SeatingDto findOne(@PathVariable String name){
         return seatingService.findOne(name);
     }
-    @GetMapping("/request/{seating}")
-    public ReturnRequestDto listRequestBySeating(@PathVariable int seating){
-        return seatingService.listRequestBySeating(seating);
-    }
+
 
     @PatchMapping("/{name}")
     public ResponseEntity<Object> update(@PathVariable String name, String nameUpdate){
