@@ -8,12 +8,14 @@ import com.projeto.restaurante.exceptions.UnregisteredProductException;
 import com.projeto.restaurante.exceptions.UnregisteredRequestException;
 import com.projeto.restaurante.exceptions.UnregisteredSeatingException;
 import com.projeto.restaurante.identities.*;
+import com.projeto.restaurante.rabbitMQ.RequestProducer;
 import com.projeto.restaurante.repository.AttendantRepositpry;
 import com.projeto.restaurante.repository.ProductRepository;
 import com.projeto.restaurante.repository.RequestRepository;
 import com.projeto.restaurante.repository.SeatingRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class RequestService {
 
+    @Autowired
+    private RequestProducer requestProducer; // Injeta o producer
     private final RequestRepository requestRepository;
     private final AttendantRepositpry attendantRepositpry;
     private final ProductRepository productRepository;
@@ -46,9 +50,9 @@ public class RequestService {
 
         Request pedido = new Request();
         pedido.setRequestAttendant(attendant.get());
-        pedido.setRequestSeating(seatingOptional.get());
+        pedido.setRequestSeating(seatingOptional.get()); // mesa
         pedido.setTotal(0.0);
-        pedido.setRequestNumber(numeroPedido);
+        pedido.setRequestNumber(numeroPedido); // pedido
         if(!seatingOptional.get().isStatus()){
             pedido.setOpeningDate(new Date());
             seatingOptional.get().setStatus(true);
@@ -64,8 +68,8 @@ public class RequestService {
             }
             Product product = productOptional.get();
             RequestItem item = new RequestItem();
-            item.setProduct(product);
-            item.setQuantity(itemDto.getQuantity());
+            item.setProduct(product); // produto
+            item.setQuantity(itemDto.getQuantity()); // quantidade
             item.setSubtotal(product.getSalePrice() * itemDto.getQuantity());
             item.setRequest(pedido); // associa o item a lista de itens do pedido
 
@@ -75,6 +79,7 @@ public class RequestService {
         double total = pedido.getItens().stream().mapToDouble(RequestItem::getSubtotal).sum();
         pedido.setTotal(total);
         pedido = requestRepository.save(pedido);
+        requestProducer.sendToSection(pedido);
         return mapper.map(pedido, ReturnRequestDto.class);
     }
 
