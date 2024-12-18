@@ -29,8 +29,8 @@ public class RequestProducer {
                     request.getRequestSeating().getId(), // Número da mesa
                     request.getRequestNumber(),          // Número do pedido
                     item.getProduct().getNameProduct(),  // Nome do produto
-                    item.getQuantity()                  // Quantidade
-//                            .section                              // Seção
+                    item.getQuantity(),                  // Quantidade
+                    item.getProduct().getProductGroup().getGroupSection().getName()                              // Seção
             );
 
             // envio da mensagem para a fila apropriada
@@ -39,7 +39,8 @@ public class RequestProducer {
                     routingKey,
                     message
             );
-            System.out.println("Mensagem enviada para a seção " + section + ": " + message);
+            System.out.println("\n#############################\n " +
+                               "Mensagem enviada para a seção " + section + ": \n" + message + "\n");
         }
     }
 

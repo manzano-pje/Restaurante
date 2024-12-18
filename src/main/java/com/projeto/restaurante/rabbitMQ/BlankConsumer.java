@@ -10,10 +10,8 @@ public class BlankConsumer {
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_KITCHEN, containerFactory = "rabbitListenerContainerFactory")
     public void proccessKitchenOrder(RequestMessageDto message){
-
-        System.out.println("\n\n########################\n" +
-                "Pedido recebido na balcão!" +
-                " ######################## " + message +"\n");
-
+        System.out.println("\n\n########################\n " +
+                           "Pedido recebido na balcão!\n " +
+                           "########################\n " + message +"\n");
     }
 }
