@@ -13,6 +13,4 @@ public interface RequestRepository extends JpaRepository<Request, Integer> {
 
     @Query("SELECT r FROM Request r JOIN FETCH r.requestAttendant JOIN FETCH r.requestSeating WHERE r.requestSeating.id = :seatingId AND r.status = true")
     List<Request> findRequestsBySeatingIdAndStatusTrue(@Param("seatingId") int seatingId);
-
-
 }

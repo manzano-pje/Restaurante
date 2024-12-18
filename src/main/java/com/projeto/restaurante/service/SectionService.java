@@ -22,7 +22,7 @@ public class SectionService {
     private final ModelMapper mapper;
 
     public SectionDto create(SectionDto sectionDto){
-        Optional<Section> sectionOptional = sectionRepository.findByName(sectionDto.getClass().getName());
+        Optional<Section> sectionOptional = sectionRepository.findByName(sectionDto.getName());
         if(sectionOptional.isPresent()){
             throw new AlreadySectionRegisteredException();
         }

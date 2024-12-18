@@ -17,7 +17,7 @@ import java.util.List;
 public class ReturnRequestDto {
 
     private String seatingName;
-//    private String attendantName;
+    private String attendantName;
     private String openingDate;
     private double total;
 
@@ -25,7 +25,7 @@ public class ReturnRequestDto {
 
     public ReturnRequestDto(Seating seating, List<Request> requests){
         this.seatingName = seating.getName();
-        this.openingDate =requests.get(0).getOpeningDate() != null ?
+        this.openingDate = requests.get(0).getOpeningDate() != null ?
                 new SimpleDateFormat("dd/MM/yyyy - HH:mm").
                         format(requests.get(0).getOpeningDate()):null;
         double totalSum = 0;

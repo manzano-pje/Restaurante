@@ -1,5 +1,7 @@
 package com.projeto.restaurante.identities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +23,15 @@ public class Seating {
     @NonNull
     private String name;
     private boolean status;
+
+    @Override
+    public String toString(){
+        return "Seating("+
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", atatus = " + status +
+                '}';
+    }
 
     /******** RELATIONS ********/
 
