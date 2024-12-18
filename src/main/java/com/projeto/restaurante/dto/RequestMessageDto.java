@@ -13,5 +13,5 @@ public class RequestMessageDto {
     private long requestNumber; // Número do pedido
     private String productName; // Nome do produto
     private int quantity; // Quantidade
-//    private String section; // Seção (kitchen, bar, blank)
+    private String section; // Seção (kitchen, bar, blank)
 }
