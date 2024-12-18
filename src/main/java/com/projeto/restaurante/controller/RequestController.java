@@ -31,4 +31,5 @@ public class RequestController {
         return requestService.listRequestBySeating(seating);
     }
 
+
 }

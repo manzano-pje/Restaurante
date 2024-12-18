@@ -55,10 +55,10 @@ public class RequestService {
         pedido.setRequestNumber(numeroPedido); // pedido
         if(!seatingOptional.get().isStatus()){
             pedido.setOpeningDate(new Date());
-            seatingOptional.get().setStatus(true);
-            seatingRepository.save(seatingOptional.get());
         }
-
+        seatingOptional.get().setStatus(true);
+        pedido.setStatus(true);
+        seatingRepository.save(seatingOptional.get());
         requestRepository.save(pedido);
 
         for(RequestItemInputDto itemDto : requestInputDto.getItens()){

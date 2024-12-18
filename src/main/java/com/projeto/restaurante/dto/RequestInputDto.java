@@ -11,8 +11,7 @@ import java.util.List;
 @Data
 public class RequestInputDto {
 
-    @NonNull
-    private  int id;
+
     @NonNull
     private int seatingId;
     @NonNull
