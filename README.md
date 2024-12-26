@@ -5,7 +5,19 @@ Este sistema cadastra os produtos classificados por grupos, mesas, atendentes e 
 Antes de gerar um pedido, verifica se a mesa está desocupada. Caso sim, seta a mesa como ocupada e abre o 1º pedido da mesa, com o horário. Caso a mesa já esteja ocupada, irá acrescentendo os pedidos para a mesa. Os itens adicionados nos pedidos serão direcionados para os respectivos setores para que possam ser montados e servidos. 
 Quando solicitado o fechamento da mesa, o sistema listará todos os itens consumidos, sua quantidade, subtotal e calculará o valor total dos pedidos.
 
-## Tecnologias utilizadas
+### Ferramentas e Tecnologias
+
+ <a href="#"><img src="https://github.com/manzano-pje/imagens/blob/master/monochrome_large.png  "  align="left" height="30em"/></a>
+ <a href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg"  align="left" height="30em"/></a>
+ <a href="#"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jetbrains/jetbrains-original.svg"  align="left" height="30em"/></a>
+ <a href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"  align="left" height="30em" /></a>
+ <a href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-plain.svg"  align="left" height="30em"/></a>
+ <a href="#"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg"  align="left" height="30em"/></a>   
+ 
+ 
+<br>
+
+##
 
 
 ## Etiquetas
