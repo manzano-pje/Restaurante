@@ -111,13 +111,12 @@ public class RequestService {
         if(requestList.isEmpty()){
             throw new UnregisteredRequestException();
         }
-        System.out.println(requestList);
 
         // calcular o total do pedido e gerar lista de itens dos pedidos da mesa
         double total = 0.0;
         int numeroItem = 1;
-        List<RequestItemDto> requestItem = new ArrayList<>();
 
+        List<RequestItemDto> requestItem = new ArrayList<>();
         for(Request request : requestList ){
             for (RequestItem item : request.getItens()){
                 total += item.getSubtotal();
@@ -127,21 +126,17 @@ public class RequestService {
 
         // Obter data de abertura da mesa
         Date openingDate = requestList.get(0).getOpeningDate();
+        Date closingDate = new Date();
 
-        // Atualização do status da mesa
+        // Atualização do status da mesa para fechada
         seating.setStatus(false);
         seatingRepository.save(seating);
 
-        // criar o DTO do fechamento
-
-
-        ClosingSeatingDto closingSeatingDto = new ClosingSeatingDto();
-        closingSeatingDto.setSeatingName(seating.getName());
+        // montar o DTO do fechamento
+        ClosingSeatingDto closingSeatingDto = new ClosingSeatingDto(total, seatingName, requestItem);
         closingSeatingDto.setOpeningDate(openingDate);
-        closingSeatingDto.setTotal(total);
-        closingSeatingDto.setItens(requestItem);
+        closingSeatingDto.setClosingDate(closingDate);
         return closingSeatingDto;
-
     }
 }
 

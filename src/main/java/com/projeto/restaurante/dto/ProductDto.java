@@ -31,7 +31,4 @@ public class ProductDto {
         this.stock = product.getStock();
         this.minimumStock = product.getMinimumStock();
     }
-
-
-
 }

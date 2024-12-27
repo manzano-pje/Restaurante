@@ -4,6 +4,8 @@ import com.projeto.restaurante.identities.Request;
 import com.projeto.restaurante.identities.RequestItem;
 import lombok.*;
 
+import java.util.Currency;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -15,14 +17,13 @@ public class RequestItemDto {
     private int quantity;
     private double subtotal;
     private String section;
+    private Currency subtotal1;
 
     public RequestItemDto(RequestItem item, int itemNumber){
-        System.out.println("Criando DTO para o item: " + item);
         this.itemNumber = itemNumber;
         this.productName = item.getProduct().getNameProduct();
         this.quantity = item.getQuantity();
         this.subtotal = item.getSubtotal();
         this.section = item.getProduct().getProductGroup().getGroupSection().getName();
     }
-
 }
