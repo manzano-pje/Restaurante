@@ -1,8 +1,6 @@
 package com.projeto.restaurante.service;
 
-import com.projeto.restaurante.dto.RequestInputDto;
-import com.projeto.restaurante.dto.RequestItemInputDto;
-import com.projeto.restaurante.dto.ReturnRequestDto;
+import com.projeto.restaurante.dto.*;
 import com.projeto.restaurante.exceptions.UnregisteredAttendantException;
 import com.projeto.restaurante.exceptions.UnregisteredProductException;
 import com.projeto.restaurante.exceptions.UnregisteredRequestException;
@@ -19,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor
@@ -57,9 +57,7 @@ public class RequestService {
             pedido.setOpeningDate(new Date());
         }
         seatingOptional.get().setStatus(true);
-        pedido.setStatus(true);
         seatingRepository.save(seatingOptional.get());
-        requestRepository.save(pedido);
 
         for(RequestItemInputDto itemDto : requestInputDto.getItens()){
             Optional<Product> productOptional = productRepository.findById(itemDto.getProductId());
@@ -83,14 +81,67 @@ public class RequestService {
         return mapper.map(pedido, ReturnRequestDto.class);
     }
 
-//    @Transactional(readOnly = true)
-    public ReturnRequestDto listRequestBySeating(int seatingId){
-        List<Request> requestList = requestRepository.findRequestsBySeatingIdAndStatusTrue(seatingId);
+
+    /*
+    gerar retorno em branco dos dados agrupados por item:
+    number do item
+    Nome do produto
+    quantidade
+    subtotal
+    total geral
+
+     */
+
+    @Transactional
+    public ClosingSeatingDto ClosingRequestSeating(String seatingName){
+        Optional<Seating> seatingOptional = seatingRepository.findByName(seatingName);
+        if(seatingOptional.isEmpty()){
+            throw new UnregisteredSeatingException();
+        }
+
+        Seating seating = seatingOptional.get();
+
+        // Validar se mesa está aberta
+        if(!seating.isStatus()){
+          throw new UnregisteredRequestException();
+        }
+
+        // Buscar pedidos ativos associados à mesa
+        List<Request> requestList = requestRepository.findRequestsBySeatingIdAndStatusTrue(seating.getId());
         if(requestList.isEmpty()){
             throw new UnregisteredRequestException();
         }
-        Seating seating = requestList.get(0).getRequestSeating();
-        return new ReturnRequestDto(seating, requestList);
+        System.out.println(requestList);
+
+        // calcular o total do pedido e gerar lista de itens dos pedidos da mesa
+        double total = 0.0;
+        int numeroItem = 1;
+        List<RequestItemDto> requestItem = new ArrayList<>();
+
+        for(Request request : requestList ){
+            for (RequestItem item : request.getItens()){
+                total += item.getSubtotal();
+                requestItem.add(new RequestItemDto(item, numeroItem++));
+            }
+        }
+
+        // Obter data de abertura da mesa
+        Date openingDate = requestList.get(0).getOpeningDate();
+
+        // Atualização do status da mesa
+        seating.setStatus(false);
+        seatingRepository.save(seating);
+
+        // criar o DTO do fechamento
+
+
+        ClosingSeatingDto closingSeatingDto = new ClosingSeatingDto();
+        closingSeatingDto.setSeatingName(seating.getName());
+        closingSeatingDto.setOpeningDate(openingDate);
+        closingSeatingDto.setTotal(total);
+        closingSeatingDto.setItens(requestItem);
+        return closingSeatingDto;
+
     }
 }
 

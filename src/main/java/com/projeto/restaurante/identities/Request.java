@@ -24,19 +24,17 @@ public class Request {
     private double total;
     private Date openingDate;
     private Date closingDate;
-    private boolean status;
 
     @Override
     public String toString(){
         return "Request("+
                 "id = " + id +
-                ", status = " + status +
                 ", openingDate = " + openingDate +
                 ", attendant = " + requestAttendant.getName() +
                 '}';
     }
     /******** RELATIONS ********/
-    @OneToMany (mappedBy = "request",cascade = CascadeType.ALL)
+    @OneToMany (mappedBy = "request",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RequestItem> itens = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
