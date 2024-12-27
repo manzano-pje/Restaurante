@@ -1,5 +1,6 @@
 package com.projeto.restaurante.dto;
 
+import com.projeto.restaurante.identities.Request;
 import com.projeto.restaurante.identities.RequestItem;
 import lombok.*;
 
@@ -23,7 +24,5 @@ public class RequestItemDto {
         this.subtotal = item.getSubtotal();
         this.section = item.getProduct().getProductGroup().getGroupSection().getName();
     }
-    public RequestItemDto(RequestItem requestItem) {
-//        System.out.println("Criando DTO para o item - requestItem: " + requestItem);
-    }
+
 }

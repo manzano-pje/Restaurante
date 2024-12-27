@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,4 +38,6 @@ public class Product {
     @JoinColumn(name = "group_id", nullable = false)
     private Group productGroup;
 
+    @OneToMany (mappedBy = "product",cascade = CascadeType.ALL)
+    private List<RequestItem> products = new ArrayList<>();
 }
