@@ -94,12 +94,8 @@ public class RequestService {
 
     @Transactional
     public ClosingSeatingDto ClosingRequestSeating(String seatingName){
-        Optional<Seating> seatingOptional = seatingRepository.findByName(seatingName);
-        if(seatingOptional.isEmpty()){
-            throw new UnregisteredSeatingException();
-        }
-
-        Seating seating = seatingOptional.get();
+        Seating seating = seatingRepository.findByName(seatingName)
+                .orElseThrow(UnregisteredSeatingException :: new);
 
         // Validar se mesa está aberta
         if(!seating.isStatus()){
@@ -116,27 +112,26 @@ public class RequestService {
         double total = 0.0;
         int numeroItem = 1;
 
-        List<RequestItemDto> requestItem = new ArrayList<>();
+        List<RequestItemDto> requestItems = new ArrayList<>();
         for(Request request : requestList ){
             for (RequestItem item : request.getItens()){
                 total += item.getSubtotal();
-                requestItem.add(new RequestItemDto(item, numeroItem++));
+                requestItems.add(new RequestItemDto(item, numeroItem++));
             }
         }
-
-        // Obter data de abertura da mesa
-        Date openingDate = requestList.get(0).getOpeningDate();
-        Date closingDate = new Date();
 
         // Atualização do status da mesa para fechada
         seating.setStatus(false);
         seatingRepository.save(seating);
 
         // montar o DTO do fechamento
-        ClosingSeatingDto closingSeatingDto = new ClosingSeatingDto(total, seatingName, requestItem);
-        closingSeatingDto.setOpeningDate(openingDate);
-        closingSeatingDto.setClosingDate(closingDate);
-        return closingSeatingDto;
+        return new ClosingSeatingDto(seatingName,
+                total,
+                requestList.get(0).getOpeningDate(),
+                new Date(),
+                requestItems
+        );
+
     }
 }
 
