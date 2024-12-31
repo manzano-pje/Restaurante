@@ -94,12 +94,8 @@ public class RequestService {
 
     @Transactional
     public ClosingSeatingDto ClosingRequestSeating(String seatingName){
-        Optional<Seating> seatingOptional = seatingRepository.findByName(seatingName);
-        if(seatingOptional.isEmpty()){
-            throw new UnregisteredSeatingException();
-        }
-
-        Seating seating = seatingOptional.get();
+        Seating seating = seatingRepository.findByName(seatingName)
+                .orElseThrow(UnregisteredSeatingException :: new);
 
         // Validar se mesa está aberta
         if(!seating.isStatus()){
@@ -111,36 +107,30 @@ public class RequestService {
         if(requestList.isEmpty()){
             throw new UnregisteredRequestException();
         }
-        System.out.println(requestList);
 
         // calcular o total do pedido e gerar lista de itens dos pedidos da mesa
         double total = 0.0;
         int numeroItem = 1;
-        List<RequestItemDto> requestItem = new ArrayList<>();
 
+        List<RequestItemDto> requestItems = new ArrayList<>();
         for(Request request : requestList ){
             for (RequestItem item : request.getItens()){
                 total += item.getSubtotal();
-                requestItem.add(new RequestItemDto(item, numeroItem++));
+                requestItems.add(new RequestItemDto(item, numeroItem++));
             }
         }
 
-        // Obter data de abertura da mesa
-        Date openingDate = requestList.get(0).getOpeningDate();
-
-        // Atualização do status da mesa
+        // Atualização do status da mesa para fechada
         seating.setStatus(false);
         seatingRepository.save(seating);
 
-        // criar o DTO do fechamento
-
-
-        ClosingSeatingDto closingSeatingDto = new ClosingSeatingDto();
-        closingSeatingDto.setSeatingName(seating.getName());
-        closingSeatingDto.setOpeningDate(openingDate);
-        closingSeatingDto.setTotal(total);
-        closingSeatingDto.setItens(requestItem);
-        return closingSeatingDto;
+        // montar o DTO do fechamento
+        return new ClosingSeatingDto(seatingName,
+                total,
+                requestList.get(0).getOpeningDate(),
+                new Date(),
+                requestItems
+        );
 
     }
 }

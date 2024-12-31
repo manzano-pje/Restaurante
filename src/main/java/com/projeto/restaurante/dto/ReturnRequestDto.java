@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,11 @@ public class ReturnRequestDto {
                 this.itens.add(new RequestItemDto(item, itemNumber++));
                 totalSum += item.getSubtotal();
             }
-            this.total = totalSum;
+            this.total = BigDecimal.valueOf(totalSum)
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .doubleValue();
+
+//            this.total = String.format("%.2f",totalSum)
         }
     }
 }
