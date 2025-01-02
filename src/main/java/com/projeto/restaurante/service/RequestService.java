@@ -57,6 +57,7 @@ import java.util.*;
         request.setTotal(0.0);
         request.setRequestNumber(requestNumber); // pedido
         request.setOpeningDate(new Date());
+        request.setStatus(true);
         request.getRequestSeating().setStatus(true);
         requestRepository.save(request);
 
@@ -105,7 +106,7 @@ import java.util.*;
         double total = 0.0;
         int numeroItem = 1;
 
-        List<RequestItemDto> requestItems = new ArrayList<>();
+        List<RequestItemDto> requestItems;
         for (Request request : requestList) {
             for (RequestItem item : request.getItens()) {
                 total += item.getSubtotal();
@@ -125,6 +126,7 @@ import java.util.*;
                     groupedItems.put(productName, new RequestItemDto(item,numeroItem));
                 }
             }
+            request.setStatus(false);
         }
         // Atualização do status da mesa para fechada
         requestItems = new ArrayList<>(groupedItems.values());

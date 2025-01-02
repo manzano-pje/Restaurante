@@ -22,6 +22,7 @@ public class Request {
     private double total;
     private Date openingDate;
     private Date closingDate;
+    private boolean status;
 
     @Override
     public String toString(){
@@ -31,6 +32,7 @@ public class Request {
                 ", attendant = " + requestAttendant.getName() +
                 '}';
     }
+
     /******** RELATIONS ********/
     @OneToMany (mappedBy = "request",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<RequestItem> itens = new ArrayList<>();
