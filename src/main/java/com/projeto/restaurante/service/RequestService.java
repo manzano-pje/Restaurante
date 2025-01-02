@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -116,16 +117,14 @@ import java.util.*;
                     // Atualiza quantidade e subtotal do item agrupado
                     RequestItemDto existingItem = groupedItems.get(productName);
                     existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
-
-                    System.out.println("\n\n Valor de existingItem.getSubtotal(): " + existingItem.getSubtotal());
-                    System.out.println("\n\n Valor de item.getSubtotal(): " + formatCurrency(item.getSubtotal()));
-                    existingItem.setSubtotal(existingItem.getSubtotal() + item.getSubtotal());
+//                    existingItem.setSubtotal(existingItem.getSubtotal() + item.getSubtotal());
+                    double updatedSubtotal = parseCurrency(existingItem.getFormattedSubtotal()) + item.getSubtotal();
+                    existingItem.setFormattedSubtotal(existingItem.formatCurrency(updatedSubtotal));
                 } else {
                     // Adiciona novo item ao mapa
                     groupedItems.put(productName, new RequestItemDto(item,numeroItem));
                 }
             }
-
         }
         // Atualização do status da mesa para fechada
         requestItems = new ArrayList<>(groupedItems.values());
@@ -138,10 +137,13 @@ import java.util.*;
         );
     }
 
-    private String formatCurrency(double value){
-        System.out.println("\n\n valor total antes da conversão : " + value);
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        return formatter.format(value);
+    private double parseCurrency(String formattedValue) {
+        try {
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+            return formatter.parse(formattedValue).doubleValue();
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Erro ao converter moeda para número: " + formattedValue, e);
+        }
     }
 }
 
