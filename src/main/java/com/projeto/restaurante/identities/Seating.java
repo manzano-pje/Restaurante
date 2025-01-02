@@ -29,7 +29,7 @@ public class Seating {
         return "Seating("+
                 "id = " + id +
                 ", name = '" + name + '\'' +
-                ", atatus = " + status +
+                ", status = " + status +
                 '}';
     }
 

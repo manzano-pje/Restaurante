@@ -11,21 +11,23 @@ import com.projeto.restaurante.repository.AttendantRepositpry;
 import com.projeto.restaurante.repository.ProductRepository;
 import com.projeto.restaurante.repository.RequestRepository;
 import com.projeto.restaurante.repository.SeatingRepository;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.text.NumberFormat;
+import java.util.*;
 
-
-@Service
-@AllArgsConstructor
-public class RequestService {
+/**
+ * request service
+ */
+@Api(tags = "  request service ")
+        @Service
+        @AllArgsConstructor
+        public class RequestService {
 
     @Autowired
     private RequestProducer requestProducer; // Injeta o producer
@@ -36,32 +38,33 @@ public class RequestService {
     private final ModelMapper mapper;
 
     @Transactional
-    public ReturnRequestDto create(RequestInputDto requestInputDto){
+    public ReturnRequestDto create(RequestInputDto requestInputDto) {
         Optional<Seating> seatingOptional = seatingRepository.findById(requestInputDto.getSeatingId());
-        if(seatingOptional.isEmpty()){
+        if (seatingOptional.isEmpty()) {
             throw new UnregisteredSeatingException();
         }
 
         Optional<Attendant> attendant = attendantRepositpry.findById(requestInputDto.getAttendantId());
-        if(attendant.isEmpty()){
+        if (attendant.isEmpty()) {
             throw new UnregisteredAttendantException();
         }
-        long numeroPedido = requestRepository.count()+1;
+        long requestNumber = requestRepository.count() + 1;
 
-        Request pedido = new Request();
-        pedido.setRequestAttendant(attendant.get());
-        pedido.setRequestSeating(seatingOptional.get()); // mesa
-        pedido.setTotal(0.0);
-        pedido.setRequestNumber(numeroPedido); // pedido
-        if(!seatingOptional.get().isStatus()){
-            pedido.setOpeningDate(new Date());
-        }
+        Request request = new Request();
+        request.setRequestAttendant(attendant.get());
+        request.setRequestSeating(seatingOptional.get()); // mesa
+        request.setTotal(0.0);
+        request.setRequestNumber(requestNumber); // pedido
+        request.setOpeningDate(new Date());
+        request.getRequestSeating().setStatus(true);
+        requestRepository.save(request);
+
         seatingOptional.get().setStatus(true);
         seatingRepository.save(seatingOptional.get());
 
-        for(RequestItemInputDto itemDto : requestInputDto.getItens()){
+        for (RequestItemInputDto itemDto : requestInputDto.getItens()) {
             Optional<Product> productOptional = productRepository.findById(itemDto.getProductId());
-            if(productOptional.isEmpty()){
+            if (productOptional.isEmpty()) {
                 throw new UnregisteredProductException();
             }
             Product product = productOptional.get();
@@ -69,61 +72,63 @@ public class RequestService {
             item.setProduct(product); // produto
             item.setQuantity(itemDto.getQuantity()); // quantidade
             item.setSubtotal(product.getSalePrice() * itemDto.getQuantity());
-            item.setRequest(pedido); // associa o item a lista de itens do pedido
-
-            pedido.getItens().add(item);
+            item.setRequest(request); // associa o item a lista de itens do pedido
+            request.getItens().add(item);
         }
 
-        double total = pedido.getItens().stream().mapToDouble(RequestItem::getSubtotal).sum();
-        pedido.setTotal(total);
-        pedido = requestRepository.save(pedido);
-        requestProducer.sendToSection(pedido);
-        return mapper.map(pedido, ReturnRequestDto.class);
+        double total = request.getItens().stream().mapToDouble(RequestItem::getSubtotal).sum();
+        request.setTotal(total);
+        request = requestRepository.save(request);
+        requestProducer.sendToSection(request);
+        return mapper.map(request, ReturnRequestDto.class);
     }
 
-
-    /*
-    gerar retorno em branco dos dados agrupados por item:
-    number do item
-    Nome do produto
-    quantidade
-    subtotal
-    total geral
-
-     */
-
     @Transactional
-    public ClosingSeatingDto ClosingRequestSeating(String seatingName){
+    public ClosingSeatingDto ClosingRequestSeating(String seatingName) {
         Seating seating = seatingRepository.findByName(seatingName)
-                .orElseThrow(UnregisteredSeatingException :: new);
+                .orElseThrow(UnregisteredSeatingException::new);
 
         // Validar se mesa está aberta
-        if(!seating.isStatus()){
-          throw new UnregisteredRequestException();
+        if (!seating.isStatus()) {
+            throw new UnregisteredRequestException();
         }
 
         // Buscar pedidos ativos associados à mesa
         List<Request> requestList = requestRepository.findRequestsBySeatingIdAndStatusTrue(seating.getId());
-        if(requestList.isEmpty()){
+        if (requestList.isEmpty()) {
             throw new UnregisteredRequestException();
         }
 
+        Map<String, RequestItemDto> groupedItems = new HashMap<>();
         // calcular o total do pedido e gerar lista de itens dos pedidos da mesa
         double total = 0.0;
         int numeroItem = 1;
 
         List<RequestItemDto> requestItems = new ArrayList<>();
-        for(Request request : requestList ){
-            for (RequestItem item : request.getItens()){
+        for (Request request : requestList) {
+            for (RequestItem item : request.getItens()) {
                 total += item.getSubtotal();
-                requestItems.add(new RequestItemDto(item, numeroItem++));
+
+                // Verifica se item já foi adicionado
+                String productName = item.getProduct().getNameProduct();
+
+                if (groupedItems.containsKey(productName)) {
+                    // Atualiza quantidade e subtotal do item agrupado
+                    RequestItemDto existingItem = groupedItems.get(productName);
+                    existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+
+                    System.out.println("\n\n Valor de existingItem.getSubtotal(): " + existingItem.getSubtotal());
+                    System.out.println("\n\n Valor de item.getSubtotal(): " + formatCurrency(item.getSubtotal()));
+                    existingItem.setSubtotal(existingItem.getSubtotal() + item.getSubtotal());
+                } else {
+                    // Adiciona novo item ao mapa
+                    groupedItems.put(productName, new RequestItemDto(item,numeroItem));
+                }
             }
+
         }
-
         // Atualização do status da mesa para fechada
-        seating.setStatus(false);
-        seatingRepository.save(seating);
-
+        requestItems = new ArrayList<>(groupedItems.values());
         // montar o DTO do fechamento
         return new ClosingSeatingDto(seatingName,
                 total,
@@ -131,7 +136,12 @@ public class RequestService {
                 new Date(),
                 requestItems
         );
+    }
 
+    private String formatCurrency(double value){
+        System.out.println("\n\n valor total antes da conversão : " + value);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        return formatter.format(value);
     }
 }
 
