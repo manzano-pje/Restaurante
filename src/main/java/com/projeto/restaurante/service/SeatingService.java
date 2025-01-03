@@ -29,6 +29,8 @@ public class SeatingService {
         }
         Seating seating = mapper.map(seatingDto, Seating.class);
         seating.setName(TextConverter.stringConverter(seatingDto.getName()));
+        seating.setOpeningDate(null);
+        seating.setClosingDate(null);
         seatingRepository.save(seating);
         return mapper.map(seating, SeatingDto.class);
     }

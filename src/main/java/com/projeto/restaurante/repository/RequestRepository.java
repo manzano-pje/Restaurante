@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface RequestRepository extends JpaRepository<Request, Integer> {
 
-    @Query("SELECT r FROM Request r JOIN FETCH r.requestAttendant JOIN FETCH r.requestSeating s WHERE s.id = :seatingId AND s.status = true")
+    @Query("SELECT r FROM Request r JOIN FETCH r.requestAttendant JOIN FETCH r.requestSeating s WHERE s.id = :seatingId AND s.status = true AND r.aberto = true")
     List<Request> findRequestsBySeatingIdAndStatusTrue(@Param("seatingId") int seatingId);
 }
 

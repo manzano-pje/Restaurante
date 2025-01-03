@@ -56,11 +56,11 @@ import java.util.*;
         request.setRequestSeating(seatingOptional.get()); // mesa
         request.setTotal(0.0);
         request.setRequestNumber(requestNumber); // pedido
-        request.setOpeningDate(new Date());
-        request.setStatus(true);
+        request.setAberto(true);
         request.getRequestSeating().setStatus(true);
         requestRepository.save(request);
 
+        seatingOptional.get().setOpeningDate(new Date());
         seatingOptional.get().setStatus(true);
         seatingRepository.save(seatingOptional.get());
 
@@ -118,28 +118,30 @@ import java.util.*;
                     // Atualiza quantidade e subtotal do item agrupado
                     RequestItemDto existingItem = groupedItems.get(productName);
                     existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
-//                    existingItem.setSubtotal(existingItem.getSubtotal() + item.getSubtotal());
-                    double updatedSubtotal = parseCurrency(existingItem.getFormattedSubtotal()) + item.getSubtotal();
+                    double updatedSubtotal = convertCurrency(existingItem.getFormattedSubtotal()) + item.getSubtotal();
                     existingItem.setFormattedSubtotal(existingItem.formatCurrency(updatedSubtotal));
                 } else {
                     // Adiciona novo item ao mapa
                     groupedItems.put(productName, new RequestItemDto(item,numeroItem));
                 }
             }
-            request.setStatus(false);
+            request.setAberto(false);
         }
         // Atualização do status da mesa para fechada
-        requestItems = new ArrayList<>(groupedItems.values());
+        seating.setStatus(false);
+        seating.setClosingDate(new Date());
+
         // montar o DTO do fechamento
+        requestItems = new ArrayList<>(groupedItems.values());
         return new ClosingSeatingDto(seatingName,
                 total,
-                requestList.get(0).getOpeningDate(),
-                new Date(),
+                seating.getOpeningDate(),
+                seating.getClosingDate(),
                 requestItems
         );
     }
 
-    private double parseCurrency(String formattedValue) {
+    private double convertCurrency(String formattedValue) {
         try {
             NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
             return formatter.parse(formattedValue).doubleValue();

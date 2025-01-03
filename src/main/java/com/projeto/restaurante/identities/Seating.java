@@ -22,13 +22,24 @@ public class Seating {
     private int id;
     @NonNull
     private String name;
+    private Date openingDate;
+    private Date closingDate;
     private boolean status;
+
+    public Seating(Seating seating) {
+        this.name = seating.getName();
+        this.openingDate = seating.getOpeningDate();
+        this.closingDate = seating.getClosingDate();
+        this.status = seating.status;
+    }
 
     @Override
     public String toString(){
         return "Seating("+
                 "id = " + id +
-                ", name = '" + name + '\'' +
+                ", name = " + name +
+                ", openingDate = " + openingDate  +
+                ", closingDate = " + closingDate +
                 ", status = " + status +
                 '}';
     }
