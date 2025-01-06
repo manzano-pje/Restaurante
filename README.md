@@ -51,7 +51,7 @@ Este sistema foi projetado para otimizar a operação de lanchonetes e restauran
 ## Autores
 
 - [Paulo Manzano](https://www.github.com/manzano-pje)
-- [Paulo Manzano](https://www.linkedin.com/in/paulo-manzano)
+-  <a href="https://linkedin.com/in/paulo-manzano"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
 
 
 
