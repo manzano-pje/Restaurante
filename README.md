@@ -26,6 +26,17 @@ Esta é uma API intuitivo e eficiente para gerenciar atendimentos em lanchonetes
 
 Este sistema foi projetado para otimizar a operação de lanchonetes e restaurantes, trazendo maior controle, eficiência e clareza no gerenciamento de pedidos e atendimento.
 
+### Aprendizado
+- Aprimoramento da utiliazção de relacionamento entre entidades;
+- Montagem de Queries;
+- Utilização do RabbitMq;
+- Utilização de componentes;
+- Utilização de métodos dentro das DTO´s;
+- Formatação de vallores em moeda corrente (NumberFormat.getCurrencyInstance);
+- Utilização do framework Spring Boot;
+- Trabalho com o Docker;
+- aperfeiçoamento no uso do Git Hub.
+
 ### Ferramentas e Tecnologias
 
  <a href="#"><img src="https://github.com/manzano-pje/imagens/blob/master/monochrome_large.png  "  align="left" height="30em"/></a>
